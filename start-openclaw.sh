@@ -182,6 +182,11 @@ config.gateway.trustedProxies = ['10.1.0.0'];
 if (process.env.OPENCLAW_GATEWAY_TOKEN) {
     config.gateway.auth = config.gateway.auth || {};
     config.gateway.auth.token = process.env.OPENCLAW_GATEWAY_TOKEN;
+} else {
+    // Remove token from config if env var is not set (e.g., after deleting MOLTBOT_GATEWAY_TOKEN secret)
+    if (config.gateway.auth) {
+        delete config.gateway.auth.token;
+    }
 }
 
 if (process.env.OPENCLAW_DEV_MODE === 'true') {
