@@ -61,7 +61,7 @@ function validateRequiredEnv(env: MoltbotEnv): string[] {
   // But not both - gateway token is simpler for getting started
   const hasGatewayToken = !!env.MOLTBOT_GATEWAY_TOKEN;
   const hasCFAccess = !!(env.CF_ACCESS_TEAM_DOMAIN && env.CF_ACCESS_AUD);
-  
+
   if (!hasGatewayToken && !hasCFAccess && !isTestMode) {
     missing.push('MOLTBOT_GATEWAY_TOKEN (or CF_ACCESS_TEAM_DOMAIN + CF_ACCESS_AUD)');
   }
