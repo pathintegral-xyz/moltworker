@@ -32,7 +32,7 @@ RUN mkdir -p /root/.openclaw \
     && mkdir -p /root/clawd/skills
 
 # Copy startup script
-# Build cache bust: 2026-02-09-v31-remove-token-if-not-set
+# Build cache bust: 2026-02-09-v32-delete-entire-auth-object
 RUN echo "Forcing rebuild $(date +%s)" > /tmp/cache-bust
 COPY start-openclaw.sh /usr/local/bin/start-openclaw.sh
 RUN chmod +x /usr/local/bin/start-openclaw.sh

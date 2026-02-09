@@ -183,10 +183,9 @@ if (process.env.OPENCLAW_GATEWAY_TOKEN) {
     config.gateway.auth = config.gateway.auth || {};
     config.gateway.auth.token = process.env.OPENCLAW_GATEWAY_TOKEN;
 } else {
-    // Remove token from config if env var is not set (e.g., after deleting MOLTBOT_GATEWAY_TOKEN secret)
-    if (config.gateway.auth) {
-        delete config.gateway.auth.token;
-    }
+    // Remove entire auth object from config if env var is not set (e.g., after deleting MOLTBOT_GATEWAY_TOKEN secret)
+    // OpenClaw requires the auth object to be completely absent for pairing mode, not just an empty object
+    delete config.gateway.auth;
 }
 
 if (process.env.OPENCLAW_DEV_MODE === 'true') {
