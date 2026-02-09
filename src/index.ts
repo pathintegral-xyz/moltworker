@@ -57,19 +57,13 @@ function validateRequiredEnv(env: MoltbotEnv): string[] {
   const missing: string[] = [];
   const isTestMode = env.DEV_MODE === 'true' || env.E2E_TEST_MODE === 'true';
 
-  if (!env.MOLTBOT_GATEWAY_TOKEN) {
-    missing.push('MOLTBOT_GATEWAY_TOKEN');
-  }
-
-  // CF Access vars not required in dev/test mode since auth is skipped
-  if (!isTestMode) {
-    if (!env.CF_ACCESS_TEAM_DOMAIN) {
-      missing.push('CF_ACCESS_TEAM_DOMAIN');
-    }
-
-    if (!env.CF_ACCESS_AUD) {
-      missing.push('CF_ACCESS_AUD');
-    }
+  // Either MOLTBOT_GATEWAY_TOKEN or CF Access credentials are required
+  // But not both - gateway token is simpler for getting started
+  const hasGatewayToken = !!env.MOLTBOT_GATEWAY_TOKEN;
+  const hasCFAccess = !!(env.CF_ACCESS_TEAM_DOMAIN && env.CF_ACCESS_AUD);
+  
+  if (!hasGatewayToken && !hasCFAccess && !isTestMode) {
+    missing.push('MOLTBOT_GATEWAY_TOKEN (or CF_ACCESS_TEAM_DOMAIN + CF_ACCESS_AUD)');
   }
 
   // Check for AI provider configuration (at least one must be set)
